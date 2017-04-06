@@ -1,32 +1,33 @@
-class Solution {
-public:
-    int longestValidParentheses(string s) {
-        // IMPORTANT: Please reset any member data you declared, as
-        // the same Solution instance will be reused for each test case.
-        int sz = s.size(), cnt = 0, res = 0;
-        vector<bool> valid(sz, false);
-        stack<int> sta;
-        for(int i = 0; i < sz; ++i) {
-            if(s[i] == '(') {
-                sta.push(i);
-            } else {
-                if(!sta.empty()) {
-                    valid[sta.top()] = valid[i] = true;
-                    sta.pop();
-                } else {
-                    while(!sta.empty())
-                        sta.pop();
-                }
-            }
-        }
-        for(int i = 0; i < sz; ++i) {
-            if(valid[i]) {
-                ++cnt;
-                res = max(res, cnt);
-            } else {
-                cnt = 0;
-            }
-        }
-        return res;
-    }
-};
+class Solution  
+{  
+public:  
+    int longestValidParentheses(string s)  
+    {  
+        stack<int>S;  
+        S.push(-1);  
+        int ans=0;  
+        for(string::size_type i=0;i<s.size();i++)  
+        {  
+            char ch=s[i];  
+            if(ch == '(')  
+            {  
+                S.push(i);  
+            }  
+            else  
+            {  
+                if(S.size()>1)  
+                {  
+                    S.pop();  
+                    int tmp=S.top();  
+                    ans=max(ans,(int)i-tmp);  
+                }  
+                else  
+                {  
+                    S.pop();  
+                    S.push(i);  
+                }  
+            }  
+        }  
+        return ans;  
+    }  
+};  
