@@ -28,3 +28,25 @@ public:
         return res;
     }
 };
+
+
+
+class Solution {
+public:
+    int largestRectangleArea(vector<int>& heights) {
+        int len=heights.size();
+        int max_size=0;
+        for(int i=0;i<len;i++)
+        {
+            int min_height=heights[i];
+            int current_size=min_height;
+            for(int j=i;j<len;j++)
+            {
+                if(heights[j]<min_height) min_height=heights[j];
+                current_size=min_height*(j-i+1);
+                if(current_size>max_size) max_size=current_size;
+            }
+        }
+        return max_size;
+    }
+};
