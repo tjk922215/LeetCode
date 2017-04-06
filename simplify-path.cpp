@@ -1,32 +1,34 @@
-class Solution { //stack doesn't have an iterator
-public:
-    string simplifyPath(string path) {
-        // IMPORTANT: Please reset any member data you declared, as
-        // the same Solution instance will be reused for each test case.
-        deque<string> s;
-        int sz = path.size(), i = 0;
-        while(i < sz) {
-            while(i < sz && path[i] == '/')
-                ++i;
-            if(i >= sz)
-                break;
-            int j = i;
-            while(j < sz && path[j] != '/')
-                ++j;
-            string tmp = path.substr(i, j - i);
-            if(tmp == "..") {
-                if(!s.empty())
-                    s.pop_back();
-            } else if(tmp != ".")
-                s.push_back(tmp);
-            i = j;
-        }
-        string res = "";
-        if(!s.empty())
-            for(deque<string>::iterator p = s.begin(); p != s.end(); ++p)
-                res += ("/" + *p);
-        else
-            res = "/";
-        return res;
-    }
-};
+ class Solution
+  {
+  public:
+      string simplifyPath(string path)
+      {
+          stack<string> ss; // 记录路径名
+          for(int i = 0; i < path.size(); )
+          {
+              // 跳过斜线'/'
+             while(i < path.size() && '/' == path[i])
+                 ++ i;
+             // 记录路径名
+             string s = "";
+             while(i < path.size() && path[i] != '/')
+                 s += path[i ++];
+             // 如果是".."则需要弹栈，否则入栈
+             if(".." == s && !ss.empty())
+                 ss.pop();
+             else if(s != "" && s != "." && s != "..")
+                 ss.push(s);
+         }
+         // 如果栈为空，说明为根目录，只有斜线'/'
+         if(ss.empty())
+             return "/";
+         // 逐个连接栈里的路径名
+         string s = "";
+         while(!ss.empty())
+         {
+             s = "/" + ss.top() + s;
+             ss.pop();
+         }
+         return s;
+     }
+ };
