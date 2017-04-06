@@ -1,19 +1,15 @@
 class Solution {
 public:
-    int lengthOfLastWord(const char *s) {
-        // IMPORTANT: Please reset any member data you declared, as
-        // the same Solution instance will be reused for each test case.
-        int cnt = 0, maxcnt = 0;
-        while(*s) {
-            if(*s == ' ') {
-                cnt = 0;
-            } else {
-                cnt++;
-                maxcnt = cnt;
-            }
-            s++;
+    int lengthOfLastWord(string s) {
+        int len=0;
+        int leng=s.length();
+       for(int i=0;i<leng;i++){
+            if(s[i]!=' ')
+             len++;
+            if(s[i]&&s[i]!=' '&&s[i-1]==' '){
+                len=1;   
+             }
         }
-        maxcnt = cnt > 0?cnt : maxcnt;
-        return maxcnt;
+        return len;
     }
 };
