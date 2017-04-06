@@ -29,3 +29,35 @@ public:
         return sta.top();
     }
 };
+
+
+//解法二：
+class Solution {
+public:
+    int evalRPN(vector<string>& tokens) {
+        int len=tokens.size();
+        stack<int> S;
+        for(int i = 0; i < len; i++)
+        {
+            if(tokens[i] == "+" || tokens[i] == "-" ||
+                tokens[i] == "*" || tokens[i] == "/")
+            {
+                int op2 = S.top();
+                S.pop();
+                int op1 = S.top();
+                S.pop();
+                S.push( op(op1, op2, tokens[i][0]) );
+            }
+            else
+                S.push(stoi(tokens[i]));//stoi() 把字符串转换成数字
+        }
+        return S.top();
+    }
+    int op(int op1, int op2, char optor)
+    {
+        if(optor == '+')return op1 + op2;
+        else if(optor == '-')return op1 - op2;
+        else if(optor == '*')return op1 * op2;
+        else return op1 / op2;
+    }
+};
