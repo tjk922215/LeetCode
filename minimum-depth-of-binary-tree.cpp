@@ -9,29 +9,13 @@
  */
 class Solution {
 public:
-    int minLevel;
-    void traverse(TreeNode *root, int level) {
-        if(level >= minLevel)
-            return;
-        bool isLeaf = true;
-        if(root->left) {
-            isLeaf = false;
-            traverse(root->left, level + 1);
-        }
-        if(root->right) {
-            isLeaf = false;
-            traverse(root->right, level + 1);
-        }
-        if(isLeaf) {
-            minLevel = level;
-        }
-    }
     int minDepth(TreeNode *root) {
-        // Note: The Solution object is instantiated only once and is reused by each test case.
-        if(root == NULL)
-            return 0;
-        minLevel = 0x7fffffff;
-        traverse(root, 1);
-        return minLevel;
+        if (root == NULL) return 0;
+        if (root->left == NULL && root->right == NULL) return 1;
+        
+        if (root->left == NULL) return minDepth(root->right) + 1;
+        else if (root->right == NULL) return minDepth(root->left) + 1;
+        else return 1 + min(minDepth(root->left), minDepth(root->right));
     }
+    
 };
