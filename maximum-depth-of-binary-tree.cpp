@@ -9,13 +9,20 @@
  */
 class Solution {
 public:
-    int getDepth(TreeNode *root, int level) {
-        if(root == NULL)
-            return level;
-        return max(getDepth(root->left, level + 1), getDepth(root->right, level + 1));
-    }
-    int maxDepth(TreeNode *root) {
-        // Note: The Solution object is instantiated only once and is reused by each test case.
-        return getDepth(root, 0);
+    int maxDepth(TreeNode* root) {
+        if (!root) return 0;
+        int res = 0;
+        queue<TreeNode*> q;
+        q.push(root);
+        while (!q.empty()) {
+            ++res;
+            int n = q.size();
+            for (int i = 0; i < n; ++i) {
+                TreeNode *t = q.front(); q.pop();
+                if (t->left) q.push(t->left);
+                if (t->right) q.push(t->right);
+            }
+        }
+        return res;
     }
 };
