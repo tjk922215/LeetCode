@@ -1,23 +1,24 @@
 class Solution {
 public:
-    vector<vector<int> > vv;
-    void compute(vector<int> &S, int index, vector<int> &v) {
-        if(index >= S.size()) {
-            vv.push_back(v);
-            return;
+    vector<vector<int>> subsets(vector<int>& nums) {
+        int length=nums.size();
+        vector<vector<int> > result;
+        int p=1<<length;
+        for(int i=0;i<p;i++)
+        {
+            vector<int> tmp;
+            //计算i中有那几位为1
+            for(int j=0;j<length;j++)
+            {
+                //判断i中第j位是否为1
+                int m=1<<j;
+                if(i&m)
+                {
+                    tmp.push_back(nums[j]);
+                }
+            }
+            result.push_back(tmp);
         }
-        compute(S, index + 1, v);
-        v.push_back(S[index]);
-        compute(S, index + 1, v);
-        v.pop_back();
-    }
-    vector<vector<int> > subsets(vector<int> &S) {
-        // IMPORTANT: Please reset any member data you declared, as
-        // the same Solution instance will be reused for each test case.
-        sort(S.begin(), S.end());
-        vv.clear();
-        vector<int> v;
-        compute(S, 0, v);
-        return vv;
+        return result;
     }
 };
